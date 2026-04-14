@@ -6,12 +6,9 @@
     "plugins": [
         {
             "name": "obsidian-claude",
-            "source": ".",
+            "source": "./",
             "description": "Vault maintenance skills for Obsidian",
-            "version": "0.1.0",
-            "author": {
-                "name": "jheddings"
-            }
+            "version": "0.1.0"
         }
     ]
 }
