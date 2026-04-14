@@ -70,7 +70,9 @@ Dispatch THREE parallel subagents using the Agent tool, one per link format. All
 >   `{VAULT_ROOT}`
 > - Manually exclude any results with `.obsidian/`, `.claude/`, or `.trash/` in the path
 >
-> From the Grep output, parse out all wikilink targets. Handle these forms:
+> From the Grep output, parse out all wikilink targets. **Skip any line containing
+> `obsidian://` — cross-vault links are handled by a separate subagent.** Handle these
+> forms:
 >
 > - `[[target]]` → `target`
 > - `[[target|alias]]` → `target` (before the first `|`)
@@ -147,16 +149,19 @@ Dispatch THREE parallel subagents using the Agent tool, one per link format. All
 >
 > **Step 2 — Discover peer vaults.** Only if Step 1 found links: use the Glob tool with
 > pattern `*/.obsidian` in the parent directory of `{VAULT_ROOT}`. Exclude
-> `{VAULT_ROOT}` itself. Build a map of `vault_name → path` from any matches.
+> `{VAULT_ROOT}` itself. Build a map of `vault_name → path` from any matches. Also add
+> the current vault to this map — determine its name from the `{VAULT_ROOT}` directory
+> name, and map it to `{VAULT_ROOT}`. Files can migrate back into the source vault, so
+> the current vault must be checked too.
 >
 > **Step 3 — Parse and verify.** From the Grep results, parse each `obsidian://` URL to
 > extract `vault` and `file` parameters. For each link:
 >
 > 1. URL-decode the `file` parameter
-> 2. If the vault name matches a discovered peer vault, use `test -f` in Bash to check
->    if `{peer_vault_path}/{decoded_file}` or `{peer_vault_path}/{decoded_file}.md`
->    exists
-> 3. If vault name doesn't match any peer vault, flag as "unknown vault"
+> 2. If the vault name matches any known vault (including the current vault), use
+>    `test -f` in Bash to check if `{vault_path}/{decoded_file}` or
+>    `{vault_path}/{decoded_file}.md` exists
+> 3. If vault name doesn't match any known vault, flag as "unknown vault"
 > 4. If URL is malformed, flag as "malformed"
 >
 > **Step 4 — Report.** Return a markdown table:
