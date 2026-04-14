@@ -1,0 +1,17 @@
+{
+    "name": "obsidian-skills",
+    "owner": {
+        "name": "jheddings"
+    },
+    "plugins": [
+        {
+            "name": "obsidian-claude",
+            "source": ".",
+            "description": "Vault maintenance skills for Obsidian",
+            "version": "0.1.0",
+            "author": {
+                "name": "jheddings"
+            }
+        }
+    ]
+}

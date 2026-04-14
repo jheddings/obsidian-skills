@@ -21,4 +21,7 @@ maintenance and hygiene.
 
 ## Installation
 
-TBD
+```bash
+/plugin marketplace add jheddings/obsidian-skills
+/plugin install obsidian-claude@obsidian-skills
+```
