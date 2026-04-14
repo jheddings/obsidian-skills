@@ -19,8 +19,8 @@ Add two GitHub Actions workflows to the obsidian-skills repo:
 ## Workflow 2: validate-skill
 
 - **File:** `.github/workflows/validate-skill.yml`
-- **Triggers:** `push` to `main`, `pull_request` to `main`, filtered to `paths:
-  skills/**`
+- **Triggers:** `push` to `main`, `pull_request` to `main`, filtered to
+  `paths: skills/**`
 - **Job 1: detect**
     - Checkout with `fetch-depth: 0` (need history for diffing)
     - Detect changed skill folders using git diff:
@@ -28,8 +28,8 @@ Add two GitHub Actions workflows to the obsidian-skills repo:
         - Push: `git diff --name-only HEAD~1...HEAD`
     - Extract unique `skills/<name>/` prefixes from changed paths
     - Output as JSON array for matrix consumption
-    - If no skill folders changed (e.g. only root-level files in `skills/`),
-      output empty array
+    - If no skill folders changed (e.g. only root-level files in `skills/`), output
+      empty array
 - **Job 2: validate**
     - `needs: detect`, with `if` guard on non-empty matrix
     - `strategy.matrix.skill` from detect output
@@ -40,8 +40,8 @@ Add two GitHub Actions workflows to the obsidian-skills repo:
 
 ## Dependencies
 
-Only first-party GitHub Actions (`actions/checkout`, `actions/setup-node`). Changed
-file detection uses plain `git diff`.
+Only first-party GitHub Actions (`actions/checkout`, `actions/setup-node`). Changed file
+detection uses plain `git diff`.
 
 ## Branch Strategy
 
